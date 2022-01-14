@@ -6,42 +6,43 @@ Layout widgets are responsible for that (you guessed it ) layout of the
 
  https://docs.flutter.dev/development/ui/widgets/layout
 
-There are different types of layout widgets that give you the visual effect
-you are looking for. We will use the container widget.
+This time we will explore multi-child layout widgets, specifically columns
 
-Containers when empty and not constrained try to be as big as possible like in
-the starting code for this branch. But containers with children try to contain
-themselves to their children's size, meaning that it will grow and shrink based
-on what you pur in it.
+A Column unlike a container has children and not child property values to
+reflect the nature of its contents. In our safe area we want to add this column
+and all of its children. The children are held in a list of type Widget
 
-If we just add the container with the text 'Hello' inside it would shrink to the
-size of the text. It also moves to the top left of the screen (default position
-of contents inside the Scaffold body). If we want to contain our UI away from
-stuff around the edges of the phone we need to put the container inside of a
-'SafeArea' widget. This will ensure that the text will be in a readable area.
+The column automatically will stack each container vertically in order from top
+to bottom beginning in the upper most right of its parent container. You can
+change the default by changing the properties of the column container.
 
-We can add additional properties to the container holding the text to take on a
-specific height and width disregarding the auto-fitting to the content.
+To see all the properties you can change and how you can change them go to the
+column class docs here:
+https://api.flutter.dev/flutter/widgets/Column-class.html
 
-We can also update the margins using pixels OR EdgeInsets which automatically
-ensures the container stays a specific distance away from the edges.
-Setting the margins is not straight forward. If you want to set the margin on
-all sides you use EdgeInsets.all but if you just want the top and bottom use
-EdgeInsets.symmetrical ( vertical: value, horizontal: value). You can also do
-the traditional fromLRTB which will allow you to set all 4 sides. If you only
-want to set one side do the .only property on the edgeInsets
+Just about every css layout property (including flexbox) are included and
+accessed as properties.
 
+If you wat to stretch the contents to fill the entire width of the container use
+'CrossAxisAlignment.stretch'.
 
-You can also adjust the contents of the container by adjusting the padding
-using EdgeInsets.
+To add spacing you can add a sized box in between your containsers to space
+between elements
 
-REMEMBER Padding is for the inside (contents) margin is for the outside
+If you want from left to right you need to change the Column widget to a row
+widget and the contents of the container stack next to each other left to right
 
-The container widget is helpful but remember that it con only hold a single
-child if used correctly. If you want to add multiple children to a container
-then use go to the next branch in this project.
+All of the properties applied to the Column can be used for row components,
+but a few things will need to change. Like since we are stretching the
+CrossAccessAlignment we are stretching from the top to the bottom for a row, so
+the height property no longer maters, and vice versa for columns and setting
+the width
 
-*/
+If you Run MyApp2 You can see how the ui updates to handle the change in
+layout to incorporate a column within a row. Remember to set the height or width
+of a container or else it will try to take up the entire screen! You will have
+to hot restart to view changes to MyApp and MyApp2.
+ */
 
 void main() {
   runApp( MyApp() );
@@ -57,16 +58,84 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.teal,
         body: SafeArea(
-          child: Container(
-            height: 100.0,
-            width: 100.0,
-            margin: EdgeInsets.symmetric(vertical: 50.0, horizontal: 50.0),
-            padding: EdgeInsets.all(20),
-            color: Colors.white,
-            child: Text('Hello'),
+          child: Column(
+            verticalDirection: VerticalDirection.down,
+            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget> [
+              Container(
+                height: 100.0,
+                width: 100.0,
+                color: Colors.white,
+                child: Text('Container 1'),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 100.0,
+                width: 100.0,
+                color: Colors.blue,
+                child: Text('Container 2'),
+              ),
+              Container(
+                height: 100.0,
+                width: 100.0,
+                color: Colors.red,
+                child: Text('Container 3'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+}
+
+class MyApp2 extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.teal,
+        body: SafeArea(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget> [
+              Container(
+                width: 100.0,
+                color: Colors.red,
+              ),
+              Container(
+                color: Colors.teal,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                 children: <Widget> [
+                   Container(
+                     width: 100,
+                     height: 100,
+                     color: Colors.yellow,
+                   ),
+                   Container(
+                       width: 100,
+                       height: 100,
+                       color: Colors.green,
+                   ),
+                 ],
+                ),
+              ),
+              Container(
+                  width: 100,
+                  color: Colors.blue
+              ),
+            ]
           ),
         ),
       ),
     );
   }
 }
+
