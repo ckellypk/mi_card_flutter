@@ -42,6 +42,8 @@ If you Run MyApp2 You can see how the ui updates to handle the change in
 layout to incorporate a column within a row. Remember to set the height or width
 of a container or else it will try to take up the entire screen! You will have
 to hot restart to view changes to MyApp and MyApp2.
+
+My App2 ws a challenge to match the screenshot presented in the course.
  */
 
 void main() {
