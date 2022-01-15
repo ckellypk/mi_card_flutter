@@ -1,49 +1,31 @@
 import 'package:flutter/material.dart';
 
 /*
-Layout widgets are responsible for that (you guessed it ) layout of the
- UI. Documentation can be found here:
+This branch I am adding the PAcifico font. To add a font its like adding an
+image asset. Create a directory to hold the resource (at root called fonts in
+this case.
 
- https://docs.flutter.dev/development/ui/widgets/layout
+We got this font from Google Fonts. Unzipped the ttf in the current fonts
+location.
 
-This time we will explore multi-child layout widgets, specifically columns
+We then need to add the asset location to the pubspec.yaml file. It should look
+like this:
 
-A Column unlike a container has children and not child property values to
-reflect the nature of its contents. In our safe area we want to add this column
-and all of its children. The children are held in a list of type Widget
+flutter:
+  fonts:
+    - family: Pacifico
+      fonts:
+        - asset: fonts/Pacifico-Regular.ttf
 
-The column automatically will stack each container vertically in order from top
-to bottom beginning in the upper most right of its parent container. You can
-change the default by changing the properties of the column container.
+ We can now access the font in our project.
 
-To see all the properties you can change and how you can change them go to the
-column class docs here:
-https://api.flutter.dev/flutter/widgets/Column-class.html
+ After the Circle Avatar is the Text for my name and title. Each has two
+ separate assets that require import. Check out the ubspec.yaml to see the
+ changes.
 
-Just about every css layout property (including flexbox) are included and
-accessed as properties.
+ The name and title use the widgets properties to update the UI. Notice how
+ easy it is to update the color and shading of the lettering in the title widget
 
-If you wat to stretch the contents to fill the entire width of the container use
-'CrossAxisAlignment.stretch'.
-
-To add spacing you can add a sized box in between your containsers to space
-between elements
-
-If you want from left to right you need to change the Column widget to a row
-widget and the contents of the container stack next to each other left to right
-
-All of the properties applied to the Column can be used for row components,
-but a few things will need to change. Like since we are stretching the
-CrossAccessAlignment we are stretching from the top to the bottom for a row, so
-the height property no longer maters, and vice versa for columns and setting
-the width
-
-If you Run MyApp2 You can see how the ui updates to handle the change in
-layout to incorporate a column within a row. Remember to set the height or width
-of a container or else it will try to take up the entire screen! You will have
-to hot restart to view changes to MyApp and MyApp2.
-
-My App2 ws a challenge to match the screenshot presented in the course.
  */
 
 void main() {
@@ -61,83 +43,37 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.teal,
         body: SafeArea(
           child: Column(
-            verticalDirection: VerticalDirection.down,
-            mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget> [
-              Container(
-                height: 100.0,
-                width: 100.0,
-                color: Colors.white,
-                child: Text('Container 1'),
+            children: <Widget>[
+              CircleAvatar(
+                radius: 50.0,
+                backgroundImage: AssetImage('images/myHeadshot.jpg'),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 100.0,
-                width: 100.0,
-                color: Colors.blue,
-                child: Text('Container 2'),
-              ),
-              Container(
-                height: 100.0,
-                width: 100.0,
-                color: Colors.red,
-                child: Text('Container 3'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-}
-
-class MyApp2 extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.teal,
-        body: SafeArea(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget> [
-              Container(
-                width: 100.0,
-                color: Colors.red,
-              ),
-              Container(
-                color: Colors.teal,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                 children: <Widget> [
-                   Container(
-                     width: 100,
-                     height: 100,
-                     color: Colors.yellow,
-                   ),
-                   Container(
-                       width: 100,
-                       height: 100,
-                       color: Colors.green,
-                   ),
-                 ],
+              Text(
+                'Chauncey Kelly',
+                style: TextStyle(
+                  fontFamily: 'Pacifico',
+                  fontSize:40.0,
+                  color: Colors.white,
+                  //fontWeight: FontWeight.bold,
                 ),
               ),
-              Container(
-                  width: 100,
-                  color: Colors.blue
+              Text(
+              'SOFTWARE ENGINEER',
+              style: TextStyle(
+                fontFamily: 'SourceSansPro',
+                fontSize:25.0,
+                color: Colors.teal.shade100,
+                letterSpacing: 2.8,
+                fontWeight: FontWeight.bold
               ),
+            ),
             ]
           ),
         ),
       ),
     );
   }
+
 }
+
 
